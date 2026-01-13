@@ -32,4 +32,4 @@ test(f6, true(F == 5)) :-
     fib(6, F).
 
 :- end_tests(fib).
-
+:- initialization(run_tests).

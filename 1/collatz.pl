@@ -18,4 +18,4 @@ test(f4, true(F == 3)) :-
     fact(6, F).
 
 :- end_tests(factorial).
-
+:- initialization(run_tests).

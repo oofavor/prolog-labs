@@ -1,14 +1,14 @@
 % Задача 1
 
-is_prime(2). 
-is_prime(3).
+is_prime(2) :- !.
+is_prime(3) :- !.
 is_prime(N) :-
 	N > 3,
 	N mod 2 =\= 0,
 	is_prime(N, 3).
 
 is_prime(N, K) :-
-	K * K > N.
+	K * K > N, !.
 
 is_prime(N, K) :-
 	K * K =< N,
@@ -18,21 +18,19 @@ is_prime(N, K) :-
 
 % Задача 2 
 
-prime_factors(N, L) :- 
-	N > 1, 
-	prime_factors(N, 2, L).
+prime_factors(N, L) :- N > 1, prime_factors(N, 2, L).
+
+prime_factors(1, _, []) :- !.
 
 prime_factors(N, D, [D|Fs]) :-
-    D * D =< N,
-    N mod D =:= 0,
+    N mod D =:= 0, !,
     N1 is N // D,
     prime_factors(N1, D, Fs).
 
 prime_factors(N, D, Fs) :-
-    D * D =< N,
+    D * D =< N, !,
     NextD is D + 1,
     prime_factors(N, NextD, Fs).
-
 prime_factors(N, _, [N]).
 
 % Задача 3
@@ -68,18 +66,14 @@ count_loop(N, D, Acc, Count, Remainder) :-
     ).
 
 % 4
-
-prime_range(Low, High, []) :-
-    Low > High.
+prime_range(Low, High, []) :- Low > High, !.
 
 prime_range(Low, High, [Low|Rest]) :-
-    Low =< High,
-    is_prime(Low),
+    is_prime(Low), !,
     Next is Low + 1,
     prime_range(Next, High, Rest).
 
 prime_range(Low, High, Rest) :-
-    Low =< High,
     Next is Low + 1,
     prime_range(Next, High, Rest).
 
@@ -104,25 +98,19 @@ goldbach_helper(Low, High, Pair) :-
 	goldbach_helper(NextLow, NextHigh, Pair).
 
 % 6
-goldbach_list(Low, High) :-
-	goldbach_list(Low, High, 2).
+
+goldbach_list(Low, High) :- goldbach_list(Low, High, 2).
 
 goldbach_list(Low, High, _) :- Low > High, !.
 
 goldbach_list(Low, High, Min) :-
-    Low =< High,
-	% чзх почему оно оптимизирует если без тернарки
-    (goldbach(Low, [A, B]) ->
-		A >= Min, 
-		format('~d + ~d = ~d~n', [A, B, Low]); 
-		true
-	),
-	Next is Low + 1,
-    goldbach_list(Next, High, Min).
-
-goldbach_list(Low, High, Min) :-
-    Low =< High,
-    Next is Low + 1, 
+    (   Low > 2, Low mod 2 =:= 0, 
+        goldbach(Low, [A, B]), 
+		A >= Min, B >= Min
+    ->  format('~d = ~d + ~d~n', [Low, A, B])
+    ;   true
+    ),
+    Next is Low + 1,
     goldbach_list(Next, High, Min).
 
 % 7

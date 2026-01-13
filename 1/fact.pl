@@ -19,4 +19,4 @@ test(forth, true(F == 720)) :-
     fact(6, F).
 
 :- end_tests(factorial).
-
+:- initialization(run_tests).
