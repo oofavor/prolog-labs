@@ -64,3 +64,4 @@ svekor(X, Y) :- female(Y), spouse(Y, Z), male(Z), father(X, Z).
 tyoshcha(X, Y) :- male(Y), spouse(Y, Z), female(Z), mother(X, Z).
 test(X, Y) :- male(Y), spouse(Y, Z), female(Z), father(X, Z).
 zyat(X, Y) :- male(X), spouse(X, Z), female(Z), parent(Y, Z).
+

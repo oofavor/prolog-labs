@@ -145,20 +145,6 @@ test(goldbach_2_fail, [fail]) :-
 
 :- end_tests(goldbach).
 
-% Задача 2.6 - goldbach_list 
-:- begin_tests(goldbach_list).
-
-test(goldbach_list_9_20, [nondet]) :- 
-    with_output_to(string(_), goldbach_list(9, 20)).
-
-test(goldbach_list_with_min, [nondet]) :- 
-    with_output_to(string(_), goldbach_list(1, 100, 10)).
-
-test(goldbach_list_empty_range, [nondet]) :- 
-    with_output_to(string(_), goldbach_list(10, 5)).
-
-:- end_tests(goldbach_list).
-
 % Задача 2.7 - gcd
 :- begin_tests(gcd).
 

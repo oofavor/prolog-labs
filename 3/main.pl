@@ -98,20 +98,28 @@ goldbach_helper(Low, High, Pair) :-
 	goldbach_helper(NextLow, NextHigh, Pair).
 
 % 6
+goldbach_list(Low, High) :-
+	goldbach_list(Low, High, 2).
 
-goldbach_list(Low, High) :- goldbach_list(Low, High, 2).
 
 goldbach_list(Low, High, _) :- Low > High, !.
 
 goldbach_list(Low, High, Min) :-
-    (   Low > 2, Low mod 2 =:= 0, 
-        goldbach(Low, [A, B]), 
-		A >= Min, B >= Min
-    ->  format('~d = ~d + ~d~n', [Low, A, B])
-    ;   true
-    ),
-    Next is Low + 1,
+    Low =< High,
+	% чзх почему оно оптимизирует если без тернарки
+    (goldbach(Low, [A, B]) ->
+		A >= Min, 
+		format('~d + ~d = ~d~n', [A, B, Low]); 
+		true
+	),
+	Next is Low + 1,
     goldbach_list(Next, High, Min).
+
+goldbach_list(Low, High, Min) :-
+    Low =< High,
+    Next is Low + 1, 
+    goldbach_list(Next, High, Min).
+
 
 % 7
 gcd(A, B, G) :- 
